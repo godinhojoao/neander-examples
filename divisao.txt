@@ -1,0 +1,33 @@
+ORG 0
+numeroEntrada EQU 128
+contador EQU 129
+dois EQU 130
+resultado EQU 131
+um EQU 132
+
+IN 0
+STA numeroEntrada
+LDI 1
+STA um
+LDI 2
+STA dois
+LDA numeroEntrada
+JZ fim
+
+LDI 0
+STA contador
+
+divide:
+  LDA numeroEntrada
+  SUB dois
+  JN fim
+  STA numeroEntrada
+  LDA contador
+  ADD um
+  STA contador
+  JMP divide
+
+fim:
+LDA contador
+OUT 0
+HLT

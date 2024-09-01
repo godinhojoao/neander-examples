@@ -1,0 +1,19 @@
+// trocar variaveis de posicao
+ORG 0
+a EQU 128
+b EQU 129
+c EQU 130
+
+LDI 1
+STA a
+LDI 2
+STA b
+
+; comeca aqui a inversao
+LDA a
+STA c ;valor de a ta em c agora
+LDA b
+STA a ; valor de b ta em a agora
+LDA c
+STA b ; valor de c que é a ta em b
+HLT

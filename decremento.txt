@@ -1,0 +1,20 @@
+// decremeta do valor recebido 1 em 1
+ORG 0
+numeroAtual EQU 128
+um EQU 130
+umNegativo EQU 131
+
+IN 0
+STA numeroAtual
+LDI 1
+STA um
+NOT
+ADD um
+STA umNegativo
+decremento:
+    LDA numeroAtual
+    ADD umNegativo
+    STA numeroAtual
+    OUT 0
+    JNZ decremento
+HLT

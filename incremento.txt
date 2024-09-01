@@ -1,0 +1,22 @@
+// incremeta o valor recebido 1 em 1 ate chegar em 20
+ORG 0
+numeroAtual EQU 128
+um EQU 129
+vinteComp2 EQU 130
+
+IN 0
+STA numeroAtual
+LDI 1
+STA um
+LDI 20
+NOT
+ADD um
+STA vinteComp2
+incremento:
+    LDA numeroAtual
+    ADD um
+    STA numeroAtual
+    OUT 0
+    ADD vinteComp2 19 - 20 = -1
+    JN incremento
+HLT

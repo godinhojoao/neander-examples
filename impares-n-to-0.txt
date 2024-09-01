@@ -1,0 +1,82 @@
+Contagem de números ímpares.
+
+O programa a ser desenvolvido deve ler um valor do teclado e apresentar, como saída no visor, a quantidade de números ímpares existentes entre 0 e o número informado.
+Observação: Sempre será informado no teclado um valor positivo e maior do que 10.
+
+// Lógica utilizada para verificar se o número é impar ou par em binário:
+- Basicamente realiza-se uma operação ANDentre o número de entrada e o número 1.
+- Dessa forma verificando o Bit menos significativo do número, se for 0 é par e se for 1 é ímpar.
+- Por que? Porque o bit menos significativo é 2^0 = 1. Como todas as outras potências são pares, sabemos que um número par + 1 resulta em um número ímpar.
+
+1 = 0001 (nossa mascara)
+5 = 0101
+0101 AND 0001 = 0001 (o menos significativo é 1)
+
+1 = 0001 (nossa mascara)
+2 = 0010
+0010 AND 0001 = 0000 (o menos significativo é 0)
+
+// Lógica utilizada no geral, incluindo o decremento:
+- Primeiramente inicializo o programa carregando os valores necessários para o desenvolvimento do mesmo,
+como o um (usado para incrementar a quantidade de impares e criar o complemento de dois),
+o complemento de dois de um (usado no decremento), entre outras posições de memória.
+- Depois de inicializar as variaveis e o complemento de um, desenvolvi a logica para verificar se o número atual é impar.
+a) Se for ímpar incremento +1 no contador de numeros impares.
+b) Se não for ímpar, pulo o incremento e vou verificar o próximo número. Se o próximo número a ser verificado for o 0 o programa exibe a quantidade total de impares e é finalizado.
+
+// Exemplos de entradas e saidas:
+entrada: 6 | impares: 1, 3, 5. pares: 0, 2, 4, 6 | 3 impares, valor exibido no final da execução no visor: 3
+entrada: 9 | impares: 1, 3, 5, 7, 9. pares: 0, 2, 4, 6, 8 | 5 impares, valor exibido no final da execução no visor: 5
+entrada: 13 | impares: 1, 3, 5, 7, 9, 11, 13. pares: 0, 2, 4, 6, 8, 10, 12 | 7 impares, valor exibido no final da execução no visor: 7
+
+; ---------------- CODIGO NEANDER COMECA AQUI ----------------
+ORG 0
+valorAtual EQU 128        ; endereço para guardar o valor de entrada
+um EQU 130                 ; endereço para o valor 1
+umNegativo EQU 131          ; endereço para o valor "-1" (complemento de 2 do numero um)
+quantidadeDeImpares EQU 132 ; endereço para contar números ímpares
+
+RecebeNumeroEntrada:
+  IN 0                     ; recebe numero de entrada pelo dispositivo de entrada
+  STA valorAtual          ; armazena o numero na posição de memoria 128
+  OUT 0                    ; mostra o numero informado no visor
+
+Comp2DeUm:
+  LDI 1                    ; carrega o valor 1
+  STA um                  ; armazena na posicao 130
+  NOT                      ; inverte os bits (NOT)
+  ADD um                  ; soma 1 ao resultado (complemento de dois)
+  STA umNegativo           ; armazena "-1" (na verdade é o complemento de dois do numero 1) na posicao 131
+
+InicializaContadorDeImpares:
+  LDI 0                    ; inicializa a contagem de ímpares em 0
+  STA quantidadeDeImpares  ; armazena na posicao 132
+
+verificaImpar:
+  LDA valorAtual             ; carrega o valor atual da posicao de memoria "valorAtual" que é 128. ---> EX: Digamos que valorAtual é 2 = 0010
+  AND um                     ; faz a operação AND com 1 (0001 em binario). Se o resultado for 1, o numero é impar; se for 0, é par. --> EX: 0010 and 0001 = 0000, menos significativo é 0, logo e par
+  JZ decrementaEVerificaProx ; se o resultado for zero é par, pula o incremento e vai para a proxima etapa
+
+incrementaImpar:
+  LDA quantidadeDeImpares  ; carrega a quantidade de ímpares
+  ADD um                   ; soma 1
+  OUT 0                    ; exibe quantidade atual de impares no visor apos incrementar
+  STA quantidadeDeImpares  ; armazena de volta
+
+decrementaEVerificaProx:
+  LDA valorAtual             ; carrega o valor atual da posicao de memoria "valorAtual" (128).
+  ADD umNegativo             ; subtrai 1 do valor atual
+  STA valorAtual             ; armazena o novo valor
+  ; OUT 0                      ; mostra o valor atualizado no visor --> COMENTEI isso, era so pra debug
+  JNZ verificaImpar          ; repete enquanto o valor for diferente de zero
+
+LDA quantidadeDeImpares    ; carrega a quantidade total de ímpares
+OUT 0                      ; mostra a quantidade de ímpares no visor
+
+HLT                        ; para a execução do programa
+; ---------------- CODIGO NEANDER ACABA AQUI ----------------
+
+
+
+
+

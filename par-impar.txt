@@ -1,0 +1,35 @@
+// EXEMPLO: verificando se é impar our par em binario
+1 = 0001 (nossa mascara)
+5 = 0101
+0101 AND 0001 = 0001 (o menos significativo é 1)
+
+1 = 0001 (nossa mascara)
+2 = 0010
+0010 AND 0001 = 0000 (o menos significativo é 0)
+
+
+// impar = 1 no visor, par = 0 no visor
+ORG 0
+numEntrada EQU 129
+mascara EQU 130
+resultado EQU 131
+zero EQU 132
+
+IN 0
+STA numEntrada
+LDI 1
+STA mascara ; 1 = 0001 em binario
+LDI 0
+STA zero
+
+LDA numEntrada ; digamos que é 2 = 0010
+AND mascara ; 0010 and 0001 = 0000, menos significativo é 0
+JZ ehPar
+LDI 1
+OUT 0 ; se for impar exibe 1
+JMP fim
+ehPar:
+  LDA zero
+  OUT 0 ; se for par exibe 0
+fim:
+    HLT

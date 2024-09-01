@@ -1,0 +1,37 @@
+// como "desfazer" o comp de 2? (so fazer a operacao inversa)
+ORG 0
+numEntrada EQU 128
+um EQU 129
+umComp2 EQU 130
+dois EQU 131
+doisComp2 EQU 132
+comp2Desfeito EQU 133
+
+LDI 1
+STA um
+OUT 0 ; mantém o visor com 1, (so pra visualizar melhor as mudanças a seguir)
+NOT
+ADD um
+STA umComp2
+
+LDI 2
+STA dois
+NOT
+ADD um
+STA doisComp2
+
+LDA dois
+ADD doisComp2 ; 2 + (-2) = 0
+OUT 0 ; mostra 0 no visor (verificando que ainda esta em complemento de 2, pois se nao tivesse ficaria 2 + 2 = 4 e 4 no visor)
+
+desfazendoComp2:
+  LDA doisComp2
+  ADD umComp2 ; subtrai 1 do complemento de 2 (adicionamos 1 pra fazer o comp. de 2, agora estamos fazendo o inverso)
+  NOT ; not de novo porque ~~A = A (desfazendo o not anterior do complemento de dois)
+  STA comp2Desfeito
+
+LDA dois
+ADD comp2Desfeito ; soma 2 + 2 = 4
+OUT 0; mostra o resultado no visor (verificando que o complemento de dois foi "desfeito")
+
+HLT

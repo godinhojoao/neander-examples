@@ -1,0 +1,34 @@
+// multiplicar por 3
+ORG 0
+numeroAtualMultiplicando EQU 128
+numeroEntrada EQU 129
+tresComp2 EQU 130
+somouQuantasVezes EQU 131
+um EQU 132
+
+IN 0
+STA numeroEntrada
+STA numeroAtualMultiplicando
+LDI 1
+STA um
+LDI 3
+NOT
+ADD um
+STA tresComp2
+LDI 1
+STA somouQuantasVezes ; comeca com 1 porque ja iniciamos a variavel numeroAtual como 2, entao falta somar +2 e +2 (so mais duas vezes)
+
+multiplica:
+  LDA numeroAtualMultiplicando
+  ADD numeroEntrada ; multiplicamos por esse, porque se a gente usar o mesmo sendo somado pra multiplicar vai fazer 2 +2 = 4 e depois 4 + 4
+  STA numeroAtualMultiplicando
+  OUT 0
+  LDA somouQuantasVezes
+  ADD um
+  STA somouQuantasVezes
+  ADD tresComp2 ; 1 - 3 = -2 --> se for negativo = nao somou 3 vezes, se for 0 somou 3 vezes e para
+  JN multiplica
+
+LDA numeroAtualMultiplicando
+OUT 0
+HLT

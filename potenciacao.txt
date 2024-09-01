@@ -1,0 +1,32 @@
+// cubo de 2: 2 * 2 * 2 = 4 * 2 = 8 ---------------- em soma: 2 + 2 = 4 e 4 + 4 = 8
+// programa que faz o cubo de um numero
+ORG 0
+numeroEntrada EQU 129
+tresComp2 EQU 130
+somouQuantasVezes EQU 131
+um EQU 132
+
+IN 0
+STA numeroEntrada
+LDI 1
+STA um
+LDI 3
+NOT
+ADD um
+STA tresComp2
+LDI 1
+STA somouQuantasVezes ; comeca com 1 porque ja iniciamos a variavel numeroAtual como 2.
+
+multiplica:
+    LDA numeroEntrada
+    ADD numeroEntrada
+    STA numeroEntrada
+    OUT 0
+    LDA somouQuantasVezes
+    ADD um
+    STA somouQuantasVezes
+    ADD tresComp2
+    JN multiplica
+LDA numeroEntrada
+OUT 0
+HLT
